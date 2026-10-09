@@ -25,27 +25,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "17"
           cache: gradle
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
         with:
-          packages: |
-            platforms;android-35
-            build-tools;35.0.0
+          packages: "platforms;android-35 build-tools;35.0.0"
 
       - name: Build, lint, and run unit tests
         run: ./gradlew --no-daemon --stacktrace lintDebug testDebugUnitTest assembleDebug
 
       - name: Save debug APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: voice-commander-debug-${{ github.run_number }}
           path: app/build/outputs/apk/debug/app-debug.apk
@@ -60,21 +58,19 @@ jobs:
       contents: write
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "17"
           cache: gradle
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
         with:
-          packages: |
-            platforms;android-35
-            build-tools;35.0.0
+          packages: "platforms;android-35 build-tools;35.0.0"
 
       - name: Validate release tag and version
         id: release-version
