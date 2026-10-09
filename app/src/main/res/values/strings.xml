@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Voice Commander</string>
+    <string name="app_description">Голосовое управление звонками и фонариком</string>
+    <string name="voice_channel_name">Голосовое управление</string>
+    <string name="call_channel_name">Входящие звонки</string>
+</resources>
