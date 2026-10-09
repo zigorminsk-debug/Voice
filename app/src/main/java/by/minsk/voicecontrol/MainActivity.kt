@@ -26,6 +26,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import java.util.Locale
 import kotlin.math.roundToInt
 
@@ -188,22 +189,12 @@ class MainActivity : Activity() {
     override fun onStart() {
         super.onStart()
         val filter = IntentFilter(AppPrefs.ACTION_STATUS)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(statusReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
-        } else {
-            @Suppress("DEPRECATION")
-            registerReceiver(statusReceiver, filter)
-        }
+        ContextCompat.registerReceiver(this, statusReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
         receiverRegistered = true
 
         val updateFilter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // DownloadManager sends this system broadcast; the download ID is verified before use.
-            registerReceiver(updateDownloadReceiver, updateFilter, Context.RECEIVER_EXPORTED)
-        } else {
-            @Suppress("DEPRECATION")
-            registerReceiver(updateDownloadReceiver, updateFilter)
-        }
+        // DownloadManager sends this system broadcast; the download ID is verified before use.
+        ContextCompat.registerReceiver(this, updateDownloadReceiver, updateFilter, ContextCompat.RECEIVER_EXPORTED)
         updateReceiverRegistered = true
         processPendingUpdateDownload()
 

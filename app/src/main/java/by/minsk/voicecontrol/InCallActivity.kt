@@ -15,6 +15,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import kotlin.math.roundToInt
 
 /** Minimal incoming/ongoing call screen required by the dialer role. */
@@ -58,12 +59,7 @@ class InCallActivity : Activity() {
     override fun onStart() {
         super.onStart()
         val filter = IntentFilter(AppPrefs.ACTION_CALL_STATE)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(stateReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
-        } else {
-            @Suppress("DEPRECATION")
-            registerReceiver(stateReceiver, filter)
-        }
+        ContextCompat.registerReceiver(this, stateReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
         receiverRegistered = true
         mainHandler.post(refreshTask)
     }
