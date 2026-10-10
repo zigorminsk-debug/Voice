@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "title": "Схема серверов ЦОД",
+  "nodes": [
+    {"id": 1, "type": "exchange", "title": "Обмен данными", "address": "10.0.0.10", "description": "Шлюз интеграции и обмена данными", "x": 70, "y": 80},
+    {"id": 2, "type": "1c", "title": "1С сервер", "address": "10.0.0.11", "description": "Сервер приложений 1С:Предприятие", "x": 310, "y": 70},
+    {"id": 3, "type": "sql", "title": "SQL Server", "address": "10.0.0.12", "description": "Сервер баз данных Microsoft SQL Server", "x": 555, "y": 80},
+    {"id": 4, "type": "file", "title": "Файловый сервер", "address": "10.0.0.13", "description": "Общие папки и файловые ресурсы", "x": 70, "y": 300},
+    {"id": 5, "type": "mail", "title": "Почтовый сервер", "address": "10.0.0.14", "description": "Корпоративная электронная почта", "x": 310, "y": 310},
+    {"id": 6, "type": "terminal", "title": "Терминальный сервер", "address": "10.0.0.15", "description": "Удалённые рабочие столы пользователей", "x": 555, "y": 300}
+  ],
+  "links": [
+    {"from": 1, "to": 2, "label": "HTTPS"},
+    {"from": 2, "to": 3, "label": "SQL"},
+    {"from": 4, "to": 2, "label": "файлы"},
+    {"from": 6, "to": 2, "label": "RDP"},
+    {"from": 5, "to": 1, "label": "SMTP"}
+  ],
+  "next_id": 7
+}
