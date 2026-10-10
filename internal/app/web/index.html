@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DocDiff — сравнение Excel и Word</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">📊</span>
+      <div>
+        <h1>DocDiff</h1>
+        <p>Сравнение таблиц Excel и документов Word</p>
+      </div>
+    </div>
+    <div class="header-note">Изменённые строки и абзацы отмечаются комментариями</div>
+  </div>
+</header>
+
+<main>
+  <section class="drop-area">
+    <div class="file-card" id="card-a" data-side="a">
+      <div class="file-label">Файл 1 · оригинал</div>
+      <div class="dropzone" id="drop-a" tabindex="0">
+        <div class="drop-icon">📄</div>
+        <div class="drop-text">Перетащите файл сюда<br>или <span class="link">выберите на диске</span></div>
+        <div class="drop-hint">.xlsx · .xlsm · .docx</div>
+        <input type="file" id="input-a" accept=".xlsx,.xlsm,.docx" hidden>
+      </div>
+      <div class="file-info" id="info-a" hidden>
+        <span class="file-type" id="type-a">XLS</span>
+        <div class="file-meta">
+          <div class="file-name" id="name-a"></div>
+          <div class="file-size" id="size-a"></div>
+        </div>
+        <button class="btn-clear" id="clear-a" title="Убрать файл">✕</button>
+      </div>
+    </div>
+
+    <div class="swap-arrow" title="Сравнить слева направо">→</div>
+
+    <div class="file-card" id="card-b" data-side="b">
+      <div class="file-label">Файл 2 · новая версия</div>
+      <div class="dropzone" id="drop-b" tabindex="0">
+        <div class="drop-icon">📄</div>
+        <div class="drop-text">Перетащите файл сюда<br>или <span class="link">выберите на диске</span></div>
+        <div class="drop-hint">.xlsx · .xlsm · .docx</div>
+        <input type="file" id="input-b" accept=".xlsx,.xlsm,.docx" hidden>
+      </div>
+      <div class="file-info" id="info-b" hidden>
+        <span class="file-type" id="type-b">XLS</span>
+        <div class="file-meta">
+          <div class="file-name" id="name-b"></div>
+          <div class="file-size" id="size-b"></div>
+        </div>
+        <button class="btn-clear" id="clear-b" title="Убрать файл">✕</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="options-panel" id="options" hidden>
+    <div class="option-row">
+      <label class="option-label" for="compare-mode">Сравнение таблиц Excel</label>
+      <select id="compare-mode">
+        <option value="positional">по порядку строк (рекомендуется)</option>
+        <option value="key">по ключевому столбцу (сопоставление по значению)</option>
+      </select>
+      <input type="text" id="key-col" maxlength="3" placeholder="A" hidden title="Буква ключевого столбца (артикул, наименование и т.п.)">
+      <span class="option-hint" id="key-hint" hidden>буква столбца с ключом, например A</span>
+    </div>
+    <div class="option-hint" id="formula-hint">
+      Формулы ячеек сравниваются всегда: изменение формулы помечается даже при совпадающем результате.
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="btn-primary" id="btn-compare" disabled>
+      <span class="btn-icon">🔍</span> Сравнить файлы
+    </button>
+    <div class="spinner" id="spinner" hidden></div>
+  </div>
+
+  <div class="error-box" id="error-box" hidden></div>
+
+  <section id="results" hidden>
+    <div class="results-head">
+      <h2>Результаты сравнения</h2>
+      <div class="download-group">
+        <a class="btn-download" id="btn-download" href="#">
+          <span>⬇</span> Файл с комментариями
+        </a>
+        <a class="btn-report" id="btn-report" href="#" target="_blank">
+          <span>🖨</span> HTML-отчёт (печать в PDF)
+        </a>
+      </div>
+    </div>
+
+    <div class="summary" id="summary"></div>
+
+    <div class="filters" id="filters">
+      <button class="chip active" data-filter="all">Все</button>
+      <button class="chip" data-filter="modified">Изменено</button>
+      <button class="chip" data-filter="added">Добавлено</button>
+      <button class="chip" data-filter="deleted">Удалено</button>
+    </div>
+
+    <div id="changes"></div>
+  </section>
+</main>
+
+<footer>
+  DocDiff · локальное приложение · файлы не покидают ваш компьютер
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
