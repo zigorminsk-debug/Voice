@@ -1,0 +1,4 @@
+*.exe
+*.json
+!examples/*.json
+.DS_Store

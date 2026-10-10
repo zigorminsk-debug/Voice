@@ -1,0 +1,44 @@
+name: ЦОД
+
+on:
+  push:
+    branches:
+      - arena/2505a99e-voice
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: Сборка Windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Получение исходного кода
+        uses: actions/checkout@v4
+
+      - name: Установка Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.x'
+          cache: false
+
+      - name: Тесты
+        shell: pwsh
+        run: go test ./...
+
+      - name: Сборка приложения
+        shell: pwsh
+        run: go build -trimpath -ldflags="-s -w -H windowsgui" -o "ЦОД.exe" .
+
+      - name: Публикация сборки ЦОД
+        uses: actions/upload-artifact@v4
+        with:
+          name: ЦОД
+          path: ЦОД.exe
+          if-no-files-found: error
+          retention-days: 30
